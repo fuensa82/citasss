@@ -5,11 +5,14 @@
 package recibosc60agia;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -229,11 +232,8 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             jFileText.setText(file.getAbsolutePath());
-
-            //This is where a real application would open the file.
-            //log.append("Opening: " + file.getName() + "." + newline);
+            
         } else {
-            //log.append("Open command cancelled by user." + newline);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -337,6 +337,23 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void generarCadenaTXT(Node nodo) {
-        //nodo.
+       
+        try { 
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document nuevoDoc = builder.newDocument();
+            //Node nodoOriginal = nuevoDoc.getDocumentElement();
+            Node nodoImportado = nuevoDoc.importNode(nodo, true);
+            nuevoDoc.appendChild(nodoImportado);
+            nuevoDoc.getElementsByTagName("Cosas");
+            
+            
+            
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(InicioRecibosC60.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
     }
 }
