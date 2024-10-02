@@ -345,8 +345,10 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             //Node nodoOriginal = nuevoDoc.getDocumentElement();
             Node nodoImportado = nuevoDoc.importNode(nodo, true);
             nuevoDoc.appendChild(nodoImportado);
-            nuevoDoc.getElementsByTagName("Cosas");
-            
+            NodeList nList=nuevoDoc.getElementsByTagName("EndToEndId");
+            for(int i=0; i<nList.getLength();i++){
+                System.out.println("Texto: "+nList.item(i).getFirstChild().getNodeValue());
+            }
             
             
         } catch (ParserConfigurationException ex) {
