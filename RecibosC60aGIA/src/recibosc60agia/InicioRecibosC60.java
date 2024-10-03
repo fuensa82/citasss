@@ -8,6 +8,8 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import recibosc60agia.utils.Utils;
 
 /**
  *
@@ -46,14 +49,14 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        jTextTributo = new javax.swing.JTextField();
+        jTextEjercicio = new javax.swing.JTextField();
+        jTextPeriodo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        jTextConcepto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,26 +95,26 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Generar fichero padrón desde Recibos C60 - Cronos to GIA");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextTributo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextTributoActionPerformed(evt);
             }
         });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextTributo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField1KeyTyped(evt);
-            }
-        });
-
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField2KeyTyped(evt);
+                jTextTributoKeyTyped(evt);
             }
         });
 
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextEjercicio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField3KeyTyped(evt);
+                jTextEjercicioKeyTyped(evt);
+            }
+        });
+
+        jTextPeriodo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextPeriodoKeyTyped(evt);
             }
         });
 
@@ -123,9 +126,9 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
 
         jLabel5.setText("Código del concepto:");
 
-        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextConcepto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextField4KeyTyped(evt);
+                jTextConceptoKeyTyped(evt);
             }
         });
 
@@ -160,13 +163,13 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3))
+                            .addComponent(jTextEjercicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                            .addComponent(jTextTributo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextPeriodo))
                         .addGap(52, 52, 52)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -176,17 +179,17 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextTributo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextEjercicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -239,6 +242,8 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         File file = new File(jFileText.getText());
+        String total="";
+        String recibo="";
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -246,8 +251,15 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             NodeList nList = doc.getElementsByTagName("DrctDbtTxInf");
             System.out.println("Numero de nodos: "+nList.getLength());
             for(int i=0;i<nList.getLength();i++){
-                generarCadenaTXT(nList.item(i));
+                recibo=generarCadenaTXT(nList.item(i), i);
+                recibo=Utils.rellenaN(jTextTributo.getText(), 3)+
+                        Utils.rellenaN(jTextEjercicio.getText(), 4)+
+                        Utils.rellenaN(jTextPeriodo.getText(), 2)+
+                        Utils.rellenaN(""+i, 6)+recibo;
+                System.out.println(recibo);
+                total+=recibo+"\n";
             }
+            System.out.println("Total: "+total);
             doc.getDocumentElement().normalize();
           } catch(Exception e) {
             e.printStackTrace();
@@ -255,33 +267,33 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextTributoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextTributoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextTributoActionPerformed
 
-    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+    private void jTextTributoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextTributoKeyTyped
         JTextField texto=(JTextField)evt.getSource();
         if (texto.getText().length()== 3) 
         evt.consume();         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1KeyTyped
+    }//GEN-LAST:event_jTextTributoKeyTyped
 
-    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    private void jTextEjercicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextEjercicioKeyTyped
         JTextField texto=(JTextField)evt.getSource();
         if (texto.getText().length()== 4) 
         evt.consume();
-    }//GEN-LAST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_jTextEjercicioKeyTyped
 
-    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+    private void jTextPeriodoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPeriodoKeyTyped
         JTextField texto=(JTextField)evt.getSource();
         if (texto.getText().length()== 2) 
         evt.consume();
-    }//GEN-LAST:event_jTextField3KeyTyped
+    }//GEN-LAST:event_jTextPeriodoKeyTyped
 
-    private void jTextField4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyTyped
+    private void jTextConceptoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextConceptoKeyTyped
         JTextField texto=(JTextField)evt.getSource();
         if (texto.getText().length()== 4) 
         evt.consume();
-    }//GEN-LAST:event_jTextField4KeyTyped
+    }//GEN-LAST:event_jTextConceptoKeyTyped
 
     /**
      * @param args the command line arguments
@@ -330,14 +342,15 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextConcepto;
+    private javax.swing.JTextField jTextEjercicio;
+    private javax.swing.JTextField jTextPeriodo;
+    private javax.swing.JTextField jTextTributo;
     // End of variables declaration//GEN-END:variables
 
-    private void generarCadenaTXT(Node nodo) {
-       
+    private String generarCadenaTXT(Node nodo, int indice) {
+        String result="";
+        String aux="";
         try { 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -345,17 +358,51 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             //Node nodoOriginal = nuevoDoc.getDocumentElement();
             Node nodoImportado = nuevoDoc.importNode(nodo, true);
             nuevoDoc.appendChild(nodoImportado);
-            NodeList nList=nuevoDoc.getElementsByTagName("EndToEndId");
-            for(int i=0; i<nList.getLength();i++){
-                System.out.println("Texto: "+nList.item(i).getFirstChild().getNodeValue());
+            
+            //DNI
+            NodeList nListAUX=nuevoDoc.getElementsByTagName("EndToEndId");
+            aux=nListAUX.item(0).getFirstChild().getNodeValue().substring(0, 9);
+            if(nListAUX.getLength()>1){
+                JOptionPane.showMessageDialog(null, "Existen dos DNI en un recibo. (Existen 2 nodos 'EndToEndID' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
+            }            
+            result+=Utils.rellenaDer(aux, " ", 20);
+            
+            //Nombre y Apellidos
+            nListAUX=nuevoDoc.getElementsByTagName("Nm");
+            aux=nListAUX.item(0).getFirstChild().getNodeValue();
+            if(nListAUX.getLength()>1){
+                JOptionPane.showMessageDialog(null, "Existen dos nombre en un recibo. (Existen 2 nodos 'Nm' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
             }
+            result+=Utils.rellenaDer(aux, " ", 50);
+            
+            //Rellenamos 65 carateres más 
+            result+=Utils.rellenaA("", 5);//tipo via
+            result+=Utils.rellenaA("", 25);//nombre via
+            result+=Utils.rellenaN("", 5);//numero
+            result+=Utils.rellenaA("", 25);//Otra informa
+            result+=Utils.rellenaN("", 5);//cod postal
+            result+=Utils.rellenaA("", 25);//Localidad
+            result+=Utils.rellenaA("", 25);//Provincia
+            
+            
+            //importe
+            nListAUX=nuevoDoc.getElementsByTagName("InstdAmt");
+            aux=nListAUX.item(0).getFirstChild().getNodeValue();
+            if(nListAUX.getLength()>1){
+                JOptionPane.showMessageDialog(null, "Existen dos importes en un recibo. (Existen 2 nodos 'InstdAmt' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
+            }
+            aux=aux.replace(".", "");
+            result+="+"+Utils.rellenaIzq(aux, "0", 12);
+            
+            result+="NT"; //Estado
+            
             
             
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(InicioRecibosC60.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
+        return result;
         
     }
 }
