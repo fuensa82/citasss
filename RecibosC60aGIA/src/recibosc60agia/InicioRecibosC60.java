@@ -4,12 +4,14 @@
  */
 package recibosc60agia;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -29,6 +31,10 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     /**
      * Creates new form InicioRecibosC60
      */
+    public String totalTXT = "";
+    public String totalCSV = "";
+    
+
     public InicioRecibosC60() {
         initComponents();
     }
@@ -57,6 +63,8 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextConcepto = new javax.swing.JTextField();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,6 +140,20 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Guardar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Guardar listado cuentas (IBAN)");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -171,6 +193,12 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(265, 265, 265)
+                .addComponent(jButton4)
+                .addGap(115, 115, 115)
+                .addComponent(jButton5)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +227,11 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -235,36 +267,36 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             jFileText.setText(file.getAbsolutePath());
-            
+
         } else {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         File file = new File(jFileText.getText());
-        String total="";
-        String recibo="";
+
+        String recibo = "";
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
             NodeList nList = doc.getElementsByTagName("DrctDbtTxInf");
-            System.out.println("Numero de nodos: "+nList.getLength());
-            for(int i=0;i<nList.getLength();i++){
-                recibo=generarCadenaTXT(nList.item(i), i);
-                recibo=Utils.rellenaN(jTextTributo.getText(), 3)+
-                        Utils.rellenaN(jTextEjercicio.getText(), 4)+
-                        Utils.rellenaN(jTextPeriodo.getText(), 2)+
-                        Utils.rellenaN(""+i, 6)+recibo;
+            System.out.println("Numero de nodos: " + nList.getLength());
+            for (int i = 0; i < nList.getLength(); i++) {
+                recibo = generarCadenaTXT(nList.item(i), i); 
+                recibo = Utils.rellenaN(jTextTributo.getText(), 3)
+                        + Utils.rellenaN(jTextEjercicio.getText(), 4)
+                        + Utils.rellenaN(jTextPeriodo.getText(), 2)
+                        + Utils.rellenaN("" + (i + 1), 6) + recibo;
                 System.out.println(recibo);
-                total+=recibo+"\n";
+                totalTXT += recibo + "\n";
             }
-            System.out.println("Total: "+total);
+            //System.out.println("Total: "+total);
             doc.getDocumentElement().normalize();
-          } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextTributoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextTributoActionPerformed
@@ -272,28 +304,72 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextTributoActionPerformed
 
     private void jTextTributoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextTributoKeyTyped
-        JTextField texto=(JTextField)evt.getSource();
-        if (texto.getText().length()== 3) 
-        evt.consume();         // TODO add your handling code here:
+        JTextField texto = (JTextField) evt.getSource();
+        if (texto.getText().length() == 3)
+            evt.consume();         // TODO add your handling code here:
     }//GEN-LAST:event_jTextTributoKeyTyped
 
     private void jTextEjercicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextEjercicioKeyTyped
-        JTextField texto=(JTextField)evt.getSource();
-        if (texto.getText().length()== 4) 
-        evt.consume();
+        JTextField texto = (JTextField) evt.getSource();
+        if (texto.getText().length() == 4)
+            evt.consume();
     }//GEN-LAST:event_jTextEjercicioKeyTyped
 
     private void jTextPeriodoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextPeriodoKeyTyped
-        JTextField texto=(JTextField)evt.getSource();
-        if (texto.getText().length()== 2) 
-        evt.consume();
+        JTextField texto = (JTextField) evt.getSource();
+        if (texto.getText().length() == 2)
+            evt.consume();
     }//GEN-LAST:event_jTextPeriodoKeyTyped
 
     private void jTextConceptoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextConceptoKeyTyped
-        JTextField texto=(JTextField)evt.getSource();
-        if (texto.getText().length()== 4) 
-        evt.consume();
+        JTextField texto = (JTextField) evt.getSource();
+        if (texto.getText().length() == 4)
+            evt.consume();
     }//GEN-LAST:event_jTextConceptoKeyTyped
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TXT", "txt");
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(filter);
+        int returnVal = fc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            //jFileText.setText(file.getAbsolutePath());
+            try (BufferedWriter BW = new BufferedWriter(new FileWriter(file))) {
+                BW.write(totalTXT);
+                JOptionPane.showMessageDialog(this, "El archivo se ha guardado correctamente");
+                totalTXT="";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            //log.append("Open command cancelled by user." + newline);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(filter);
+        int returnVal = fc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            //jFileText.setText(file.getAbsolutePath());
+            try (BufferedWriter BW = new BufferedWriter(new FileWriter(file))) {
+                BW.write(totalCSV);
+                JOptionPane.showMessageDialog(this, "El archivo se ha guardado correctamente");
+                totalCSV="";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            //log.append("Open command cancelled by user." + newline);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,6 +410,8 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JTextField jFileText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -348,61 +426,148 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     private javax.swing.JTextField jTextTributo;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Genera los datos del recibo que se cargará en GIA menos los 5 primeros datos.
+     * @param nodo
+     * @param indice
+     * @return 
+     */
     private String generarCadenaTXT(Node nodo, int indice) {
-        String result="";
-        String aux="";
-        try { 
+        String result = "";
+        String aux = "";
+        try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document nuevoDoc = builder.newDocument();
             //Node nodoOriginal = nuevoDoc.getDocumentElement();
             Node nodoImportado = nuevoDoc.importNode(nodo, true);
             nuevoDoc.appendChild(nodoImportado);
+
+            totalCSV+=(indice+1);
             
             //DNI
-            NodeList nListAUX=nuevoDoc.getElementsByTagName("EndToEndId");
-            aux=nListAUX.item(0).getFirstChild().getNodeValue().substring(0, 9);
-            if(nListAUX.getLength()>1){
-                JOptionPane.showMessageDialog(null, "Existen dos DNI en un recibo. (Existen 2 nodos 'EndToEndID' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
-            }            
-            result+=Utils.rellenaDer(aux, " ", 20);
+            NodeList nListAUX = nuevoDoc.getElementsByTagName("EndToEndId");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue().substring(0, 9);
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos DNI en un recibo. (Existen 2 nodos 'EndToEndID' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            }
+            result += Utils.rellenaDer(aux, " ", 20);
+            totalCSV+=";"+aux;
+            
             
             //Nombre y Apellidos
-            nListAUX=nuevoDoc.getElementsByTagName("Nm");
-            aux=nListAUX.item(0).getFirstChild().getNodeValue();
-            if(nListAUX.getLength()>1){
-                JOptionPane.showMessageDialog(null, "Existen dos nombre en un recibo. (Existen 2 nodos 'Nm' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
+            nListAUX = nuevoDoc.getElementsByTagName("Nm");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos nombre en un recibo. (Existen 2 nodos 'Nm' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
             }
-            result+=Utils.rellenaDer(aux, " ", 50);
+            result += Utils.rellenaDer(aux, " ", 50);
+            totalCSV+=";"+aux;
             
+            //IBAN (no se pasa a GIA, es para generar un excel con los datos del tercero y su numero de cuenta.
+            nListAUX = nuevoDoc.getElementsByTagName("IBAN");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos IBAN en un recibo. (Existen 2 nodos 'IBAN' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            }
+            //result += Utils.rellenaDer(aux, " ", 50);
+            totalCSV+=";"+aux+"\n";
+
             //Rellenamos 65 carateres más 
-            result+=Utils.rellenaA("", 5);//tipo via
-            result+=Utils.rellenaA("", 25);//nombre via
-            result+=Utils.rellenaN("", 5);//numero
-            result+=Utils.rellenaA("", 25);//Otra informa
-            result+=Utils.rellenaN("", 5);//cod postal
-            result+=Utils.rellenaA("", 25);//Localidad
-            result+=Utils.rellenaA("", 25);//Provincia
-            
-            
+            result += Utils.rellenaA("", 5);//tipo via
+            result += Utils.rellenaA("", 25);//nombre via
+            result += Utils.rellenaN("", 5);//numero
+            result += Utils.rellenaA("", 25);//Otra informa
+            result += Utils.rellenaN("", 5);//cod postal
+            result += Utils.rellenaA("", 25);//Localidad
+            result += Utils.rellenaA("", 25);//Provincia
+
             //importe
-            nListAUX=nuevoDoc.getElementsByTagName("InstdAmt");
-            aux=nListAUX.item(0).getFirstChild().getNodeValue();
-            if(nListAUX.getLength()>1){
-                JOptionPane.showMessageDialog(null, "Existen dos importes en un recibo. (Existen 2 nodos 'InstdAmt' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: "+indice+")");
+            nListAUX = nuevoDoc.getElementsByTagName("InstdAmt");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos importes en un recibo. (Existen 2 nodos 'InstdAmt' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
             }
-            aux=aux.replace(".", "");
-            result+="+"+Utils.rellenaIzq(aux, "0", 12);
-            
-            result+="NT"; //Estado
-            
-            
-            
+            aux = aux.replace(".", "");
+            result += "+" + Utils.rellenaIzq(aux, "0", 12);
+
+            result += "NT"; //Estado
+
+            //Fecha estado en formado aaaammdd
+            nListAUX = nuevoDoc.getElementsByTagName("DtOfSgntr");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos fechas para un recibo. (Existen 2 nodos 'DtOfSgntr' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            }
+            aux=Utils.fecha(aux); 
+            result += Utils.rellenaN(aux, 8);
+
+            //Variables 1,2,3,4,5 y 6
+            nListAUX = nuevoDoc.getElementsByTagName("Ustrd");
+            aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos textos del recibo para un recibo. (Existen 2 nodos 'Ustrd' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            }
+            result += Utils.rellenaA(aux, 180);
+
+            //Conceptos
+            //Concepto 1 mas signo
+            result += Utils.rellenaN(jTextConcepto.getText(), 4);
+
+            //importe concepto 1
+            nListAUX = nuevoDoc.getElementsByTagName("InstdAmt");
+            String importe = nListAUX.item(0).getFirstChild().getNodeValue();
+            if (nListAUX.getLength() > 1) {
+                JOptionPane.showMessageDialog(null, "Existen dos importes en un recibo. (Existen 2 nodos 'InstdAmt' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            }
+            importe = importe.replace(".", "");
+            result += "+" + Utils.rellenaN(importe, 12);
+            result += Utils.rellenaN("0", 12);
+
+            //importe concepto 2        
+            result += getCadenaConceptoVacio();
+            //importe concepto 3        
+            result += getCadenaConceptoVacio();
+            //importe concepto 4        
+            result += getCadenaConceptoVacio();
+            //importe concepto 5        
+            result += getCadenaConceptoVacio();
+            //importe concepto 6        
+            result += getCadenaConceptoVacio();
+            //importe concepto 7        
+            result += getCadenaConceptoVacio();
+            //importe concepto 8        
+            result += getCadenaConceptoVacio();
+            //importe concepto 9        
+            result += getCadenaConceptoVacio();
+            //importe concepto 10        
+            result += getCadenaConceptoVacio();
+            //importe concepto 11        
+            result += getCadenaConceptoVacio();
+            //importe concepto 12        
+            result += getCadenaConceptoVacio();
+            //importe concepto 13       
+            result += getCadenaConceptoVacio();
+            //importe concepto 14        
+            result += getCadenaConceptoVacio();
+            //importe concepto 15        
+            result += getCadenaConceptoVacio();
+            //Importe IVA 21
+            result += "+000000000000000000000000";
+            //Importe IVA 10
+            result += "+000000000000000000000000";
+            //Importe IVA 0
+            result += "+" + Utils.rellenaN(importe, 12) + "000000000000";
+
         } catch (ParserConfigurationException ex) {
             Logger.getLogger(InicioRecibosC60.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return result;
-        
+
+    }
+
+    public String getCadenaConceptoVacio() {
+        return "0000+000000000000000000000000";
     }
 }
