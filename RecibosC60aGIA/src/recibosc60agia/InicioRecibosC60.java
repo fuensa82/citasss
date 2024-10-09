@@ -52,8 +52,6 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
         jFileText = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jTextTributo = new javax.swing.JTextField();
         jTextEjercicio = new javax.swing.JTextField();
@@ -81,7 +79,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Salir");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -94,10 +92,6 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -140,7 +134,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Guardar");
+        jButton4.setText("Guardar fichero GIA");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -166,39 +160,36 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jFileText, javax.swing.GroupLayout.DEFAULT_SIZE, 440, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
                         .addGap(392, 392, 392))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextEjercicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                            .addComponent(jTextTributo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextPeriodo))
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jTextEjercicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
+                                        .addComponent(jTextTributo, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTextPeriodo))
+                                    .addGap(52, 52, 52)
+                                    .addComponent(jLabel5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextConcepto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(265, 265, 265)
-                .addComponent(jButton4)
-                .addGap(115, 115, 115)
-                .addComponent(jButton5)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,15 +214,13 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jFileText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(30, 30, 30)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -260,16 +249,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     }//GEN-LAST:event_jFileTextActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("XML", "xml");
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(filter);
-        int returnVal = fc.showSaveDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            jFileText.setText(file.getAbsolutePath());
-
-        } else {
-        }
+        System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -293,6 +273,8 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             }
             //System.out.println("Total: "+total);
             doc.getDocumentElement().normalize();
+            guardarTXT();
+            guardarCVS();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -327,7 +309,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             evt.consume();
     }//GEN-LAST:event_jTextConceptoKeyTyped
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void guardarTXT(){
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TXT", "txt");
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(filter);
@@ -338,37 +320,23 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             //jFileText.setText(file.getAbsolutePath());
             try (BufferedWriter BW = new BufferedWriter(new FileWriter(file))) {
                 BW.write(totalTXT);
-                JOptionPane.showMessageDialog(this, "El archivo se ha guardado correctamente");
+                JOptionPane.showMessageDialog(this, "El archivo TXT se ha guardado correctamente");
                 totalTXT="";
             } catch (IOException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error: "+e, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
 
         } else {
             //log.append("Open command cancelled by user." + newline);
         }
+    }
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        guardarTXT();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(filter);
-        int returnVal = fc.showSaveDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-
-            //jFileText.setText(file.getAbsolutePath());
-            try (BufferedWriter BW = new BufferedWriter(new FileWriter(file))) {
-                BW.write(totalCSV);
-                JOptionPane.showMessageDialog(this, "El archivo se ha guardado correctamente");
-                totalCSV="";
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            //log.append("Open command cancelled by user." + newline);
-        }
+        guardarCVS();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -418,8 +386,6 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextConcepto;
     private javax.swing.JTextField jTextEjercicio;
     private javax.swing.JTextField jTextPeriodo;
@@ -569,5 +535,27 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
 
     public String getCadenaConceptoVacio() {
         return "0000+000000000000000000000000";
+    }
+
+    private void guardarCVS() {
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV", "csv");
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(filter);
+        int returnVal = fc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+
+            //jFileText.setText(file.getAbsolutePath());
+            try (BufferedWriter BW = new BufferedWriter(new FileWriter(file))) {
+                BW.write(totalCSV);
+                JOptionPane.showMessageDialog(this, "El archivo CSV se ha guardado correctamente");
+                totalCSV="";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            //log.append("Open command cancelled by user." + newline);
+        }
     }
 }
