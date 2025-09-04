@@ -238,11 +238,17 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         if (modo.equalsIgnoreCase(ALTA)) {
             PersonaBean nuevaPer = new PersonaBean(jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText());
 
-            if (GestionPersonaBD.guardarPersona(nuevaPer) == 1) {
+            if (GestionPersonaBD.crearPersona(nuevaPer) == 1) {
                 Window w = SwingUtilities.getWindowAncestor(this);
                 w.setVisible(false);
             }
 
+        }else if(modo.equalsIgnoreCase(MTTO)){
+            PersonaBean nuevaPer = new PersonaBean(persona.getIdPersona(),jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText());
+            if (GestionPersonaBD.guardarPersona(nuevaPer) == 1) {
+                Window w = SwingUtilities.getWindowAncestor(this);
+                w.setVisible(false);
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

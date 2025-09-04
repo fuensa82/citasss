@@ -140,7 +140,7 @@ public class GestionPersonaBD {
         return result;
     }
 
-    public static int guardarPersona(PersonaBean persona) {
+    public static int crearPersona(PersonaBean persona) {
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
@@ -160,6 +160,43 @@ public class GestionPersonaBD {
 
         } catch (SQLException | NamingException e) {
             JOptionPane.showMessageDialog(null, "Error en el alta: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionCitasBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
+    /**
+     * Se utilizará para el mantenimiento de los datos de una persona
+     * @param persona
+     * @return 
+     */
+    public static int guardarPersona(PersonaBean persona) {
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement insert1 = conexion.prepareStatement("UPDATE `serviciossocialescitas`.`personas` set DNI=?, Nombre=?, Apellidos=?, FechaNac=?, Telefono1=?, Telefono2=?, email=?, Observaciones=? where idPersona=?");
+
+            insert1.setString(1, persona.getDNI());
+            insert1.setString(2, persona.getNombre());
+            insert1.setString(3, persona.getApellidos());
+            insert1.setString(4, FechasUtils.fechaParaMysql(persona.getFechaNac()));
+            insert1.setString(5, persona.getTelefono1());
+            insert1.setString(6, persona.getTelefono2());
+            insert1.setString(7, persona.getEmail());
+            insert1.setString(8, persona.getObservaciones());
+            insert1.setString(9, persona.getIdPersona());
+            
+
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            JOptionPane.showMessageDialog(null, "Error en la modificación: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
             try {
