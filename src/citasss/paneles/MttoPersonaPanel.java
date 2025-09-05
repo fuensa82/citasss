@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
  * @author vPalomo
  */
 public class MttoPersonaPanel extends javax.swing.JPanel {
-
+    public static String CONSULTA = "consulta";
     public static String MTTO = "mtto";
     public static String ALTA = "alta";
     private String modo;
@@ -34,7 +34,20 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         this.persona = persona;
         this.modo = modo;
         initComponents();
+        
         cargarDatos();
+        if(this.modo.equalsIgnoreCase(CONSULTA)){
+            jButtonAceptar.setEnabled(false);
+            jButtonCalendario.setEnabled(false);
+            jTextApellidos.setEnabled(false);
+            jTextDNI.setEnabled(false);
+            jTextNombre.setEnabled(false);
+            jTextFechaNac.setEnabled(false);
+            jTextEmail.setEnabled(false);
+            jTextObservaciones.setEnabled(false);
+            jTextTelefono1.setEnabled(false);
+            jTextTelefono2.setEnabled(false);
+        }
     }
 
     /**
@@ -73,11 +86,11 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         jTextObservaciones = new javax.swing.JTextArea();
         jTextTelefono2 = new javax.swing.JTextField();
         jTextEmail = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonCalendario = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabelTitulo = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
+        jButtonAceptar = new javax.swing.JButton();
         jButtonCitas = new javax.swing.JButton();
 
         jLabel1.setText("DNI/NIE/Pass");
@@ -98,10 +111,10 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         jTextObservaciones.setRows(5);
         jScrollPane1.setViewportView(jTextObservaciones);
 
-        jButton1.setText("Calendario");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCalendario.setText("Calendario");
+        jButtonCalendario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCalendarioActionPerformed(evt);
             }
         });
 
@@ -110,17 +123,17 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         jLabelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelTitulo.setText("Titulo");
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonCancelarActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Aceptar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAceptar.setText("Aceptar");
+        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonAceptarActionPerformed(evt);
             }
         });
 
@@ -154,7 +167,7 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jTextFechaNac, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
                                     .addGap(19, 19, 19)
-                                    .addComponent(jButton1))
+                                    .addComponent(jButtonCalendario))
                                 .addComponent(jTextEmail, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTextApellidos, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jTextNombre, javax.swing.GroupLayout.Alignment.LEADING))
@@ -170,9 +183,9 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
                 .addGap(39, 39, 39))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(jButtonAceptar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(jButtonCancelar)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -197,7 +210,7 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonCalendario))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -216,13 +229,13 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jButtonAceptar))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonCalendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalendarioActionPerformed
         JCalendar dateChooser = new JCalendar();
         int opcion = JOptionPane.showConfirmDialog(this, dateChooser, "Seleccione una fecha", JOptionPane.OK_CANCEL_OPTION);
 
@@ -230,9 +243,9 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             jTextFechaNac.setText(sdf.format(dateChooser.getDate()));
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonCalendarioActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         System.out.println("Fecha: "+jTextFechaNac.getText());
         if (modo.equalsIgnoreCase(ALTA)) {
             PersonaBean nuevaPer = new PersonaBean(jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText());
@@ -249,12 +262,12 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
                 w.setVisible(false);
             }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonAceptarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         Window w = SwingUtilities.getWindowAncestor(this);
         w.setVisible(false);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCitasActionPerformed
         Frame padre = null;
@@ -271,9 +284,9 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonAceptar;
+    private javax.swing.JButton jButtonCalendario;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonCitas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -309,6 +322,16 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         } else if (modo.equalsIgnoreCase(ALTA)) {
             jLabelTitulo.setText("Alta de datos");
             jButtonCitas.setEnabled(false);
+        }else if (modo.equalsIgnoreCase(CONSULTA)) {
+            jButtonCitas.setEnabled(true);
+            jLabelTitulo.setText("Consulta de datos");
+            jTextDNI.setText(persona.getDNI());
+            jTextNombre.setText(persona.getNombre());
+            jTextApellidos.setText(persona.getApellidos());
+            jTextFechaNac.setText(persona.getFechaNac());
+            jTextTelefono1.setText(persona.getTelefono1());
+            jTextTelefono2.setText(persona.getTelefono2());
+            jTextObservaciones.setText(persona.getObservaciones());
         }
 
     }

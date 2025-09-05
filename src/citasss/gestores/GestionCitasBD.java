@@ -141,7 +141,7 @@ public class GestionCitasBD {
             insert1.setString(1, idPersona);
             insert1.setString(2, idServicio);
             insert1.setString(3, idCita);
-            System.out.println("SQL "+insert1);
+            //System.out.println("SQL "+insert1);
             int fila = insert1.executeUpdate();
             if(fila==1){
                 GestionPersonaBD.asignarUltimaTrabajadora(idPersona,idTrabajadora);
@@ -251,7 +251,7 @@ public class GestionCitasBD {
             conexion = ConectorBD.getConnection();
             PreparedStatement update = conexion.prepareStatement("UPDATE serviciossocialescitas.citasdisponibles SET idPersona=null, idServicio=null, observaciones='' WHERE idCitaDisponible=?");
             update.setString(1, idCita);
-            System.out.println("SQL "+update);
+            //System.out.println("SQL "+update);
             int fila = update.executeUpdate();
             return fila; //Correcto
 

@@ -96,7 +96,7 @@ public class GestionPersonaBD {
             consulta.setInt(3, idTrabajadora);
             consulta.setInt(6, idTrabajadora);
             consulta.setInt(9, idTrabajadora);
-            System.out.println("idTrabajadora: "+idTrabajadora);
+            //System.out.println("idTrabajadora: "+idTrabajadora);
             if (idTrabajadora == 0) {
                 //System.out.println("idTrabajadora: "+idTrabajadora);
                 consulta = conexion.prepareStatement("SELECT idPersona,DNI,Nombre,Apellidos,FechaNac,Telefono1,Telefono2,email,activa,Observaciones,idTrabajadora FROM personas WHERE Nombre LIKE ? and activa=? "
@@ -113,7 +113,7 @@ public class GestionPersonaBD {
 
                 
             }
-            System.out.println("Consulta: " + consulta);
+            //System.out.println("Consulta: " + consulta);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
                 persona = new PersonaBean();
@@ -220,7 +220,7 @@ public class GestionPersonaBD {
                     + "WHERE idPersona=?");
 
             consulta.setString(1, idPersona);
-            System.out.println("Consulta: " + consulta);
+            //System.out.println("Consulta: " + consulta);
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 persona = new PersonaBean();
@@ -255,7 +255,7 @@ public class GestionPersonaBD {
             PreparedStatement update = conexion.prepareStatement("UPDATE `serviciossocialescitas`.`personas` SET `idTrabajadora`=? WHERE  `idPersona`=?");
             update.setString(1, idTrabajadora);
             update.setString(2, idPersona);
-            System.out.println("SQL " + update);
+            //System.out.println("SQL " + update);
             int fila = update.executeUpdate();
             return fila; //Correcto
 
@@ -277,7 +277,7 @@ public class GestionPersonaBD {
             conexion = ConectorBD.getConnection();
             PreparedStatement update = conexion.prepareStatement("DELETE from personas where `idPersona`=?");
             update.setString(1, idPersona);
-            System.out.println("SQL " + update);
+            //System.out.println("SQL " + update);
             int fila = update.executeUpdate();
             return fila; //Correcto
 
