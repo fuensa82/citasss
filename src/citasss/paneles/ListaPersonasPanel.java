@@ -5,17 +5,18 @@
 package citasss.paneles;
 
 import citasss.beans.PersonaBean;
-import citasss.gestores.GestionCitasBD;
 import citasss.gestores.GestionPersonaBD;
 import citasss.gestores.GestionTrabajadorasBD;
 import citasss.utils.FechasUtils;
 import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import static junit.runner.Version.id;
 
 /**
  *
@@ -25,21 +26,21 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
     private String idCita;
     private String idTrabajadora;
-    
+
     /**
      * Crea el panel con el id de la cita que se va a tratar
-     * @param id 
+     *
+     * @param id
      */
     public ListaPersonasPanel(String id, String idTrabajadora) {
-        idCita=id;
-        this.idTrabajadora=idTrabajadora;
+        idCita = id;
+        this.idTrabajadora = idTrabajadora;
         initComponents();
         cargarTabla(Integer.parseInt(idTrabajadora), jCheckHist.isSelected() ? 0 : 1);
         ponListenerTablaCitas();
         selectCombo(idTrabajadora);
     }
 
-    
     private void ponListenerTablaCitas() {
         JPanel padre = this;
         jTablePersonas.addMouseListener(new MouseAdapter() {
@@ -48,21 +49,28 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                     String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 1);
                     System.out.println("Se ha hecho un click");
                 }
+
                 if (e.getClickCount() == 2) {
-                    System.out.println("Se ha hecho doble click");
-                    String idPersona =(String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
-                    //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
-                    System.out.println("Id: " + idPersona);
-                    System.out.println("Result: "+GestionCitasBD.asignarCitaDisponible(idCita,idPersona, idTrabajadora));
+                    String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+                    JDialog frame = new JDialog(new JFrame(), "Seleccion de servicio", true);
+                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                    frame.getContentPane().add(new ServiciosPanel(idCita, idTrabajadora, idPersona));
+                    frame.pack();
+                    frame.setLocationRelativeTo(padre);
+                    frame.setVisible(true);
+                    //cargarCitasFecha(jTextFecha1.getText());
+//                    System.out.println("Se ha hecho doble click");
+//                    String idPersona =(String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+//                    //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+//                    System.out.println("Id: " + idPersona);
+//                    System.out.println("Result: "+GestionCitasBD.asignarCitaDisponible(idCita,idPersona, idTrabajadora));
                     Window w = SwingUtilities.getWindowAncestor(padre);
                     w.setVisible(false);
-                    
+
                 }
             }
         });
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,24 +91,25 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
         jCheckHist = new javax.swing.JCheckBox();
         jComboTrabajadora = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         jTablePersonas.setAutoCreateRowSorter(true);
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "id", "Nombre", "Apellidos", "DNI", "Fecha Nac."
+                "id", "Nombre", "Apellidos", "DNI", "Fecha Nac.", "Trabajadora"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -114,15 +123,17 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTablePersonas);
         if (jTablePersonas.getColumnModel().getColumnCount() > 0) {
             jTablePersonas.getColumnModel().getColumn(0).setResizable(false);
-            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(5);
+            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(50);
             jTablePersonas.getColumnModel().getColumn(1).setResizable(false);
-            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(25);
+            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(250);
             jTablePersonas.getColumnModel().getColumn(2).setResizable(false);
-            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(40);
+            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(300);
             jTablePersonas.getColumnModel().getColumn(3).setResizable(false);
-            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(10);
+            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(100);
             jTablePersonas.getColumnModel().getColumn(4).setResizable(false);
-            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(20);
+            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTablePersonas.getColumnModel().getColumn(5).setResizable(false);
+            jTablePersonas.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
         jTextFiltro.addActionListener(new java.awt.event.ActionListener() {
@@ -170,6 +181,13 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Trabajadora");
 
+        jButton4.setText("Borrar persona");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,7 +210,8 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                         .addComponent(jCheckHist)
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)))
@@ -214,7 +233,8 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -226,15 +246,26 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int filaSeleccionada = jTablePersonas.getSelectedRow();
         if (filaSeleccionada != -1) { // -1 significa que no hay fila seleccionada
-            String idPersona = (String) jTablePersonas.getValueAt(filaSeleccionada, 0); // columna 0 = primera columna
-            System.out.println("Valor: " + idPersona.toString());
-            System.out.println("Result: "+GestionCitasBD.asignarCitaDisponible(idCita,idPersona,idTrabajadora));
-            Window w = SwingUtilities.getWindowAncestor(this);
+            JPanel padre = this;
+            String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+            JDialog frame = new JDialog(new JFrame(), "Seleccion de servicio", true);
+            frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+            frame.getContentPane().add(new ServiciosPanel(idCita, idTrabajadora, idPersona));
+            frame.pack();
+            frame.setLocationRelativeTo(padre);
+            frame.setVisible(true);
+            //cargarCitasFecha(jTextFecha1.getText());
+//                    System.out.println("Se ha hecho doble click");
+//                    String idPersona =(String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+//                    //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+//                    System.out.println("Id: " + idPersona);
+//                    System.out.println("Result: "+GestionCitasBD.asignarCitaDisponible(idCita,idPersona, idTrabajadora));
+            Window w = SwingUtilities.getWindowAncestor(padre);
             w.setVisible(false);
-        }else{
+        } else {
             System.out.println("Sin seleccion");
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -244,25 +275,36 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
     private void jCheckHistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckHistActionPerformed
         String idTrabajadora = jComboTrabajadora.getModel().getElementAt(jComboTrabajadora.getSelectedIndex()).split(" - ")[0];
-        int id=Integer.parseInt(idTrabajadora);
-        cargarTabla(id,jCheckHist.isSelected()?0:1);
+        int id = Integer.parseInt(idTrabajadora);
+        cargarTabla(id, jCheckHist.isSelected() ? 0 : 1);
     }//GEN-LAST:event_jCheckHistActionPerformed
 
     private void jComboTrabajadoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboTrabajadoraActionPerformed
         String idTrabajadora = jComboTrabajadora.getModel().getElementAt(jComboTrabajadora.getSelectedIndex()).split(" - ")[0];
-        int id=Integer.parseInt(idTrabajadora);
-        cargarTabla(id,jCheckHist.isSelected()?0:1);
+        int id = Integer.parseInt(idTrabajadora);
+        cargarTabla(id, jCheckHist.isSelected() ? 0 : 1);
     }//GEN-LAST:event_jComboTrabajadoraActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cargarTablaFiltro(jTextFiltro.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int filaSeleccionada = jTablePersonas.getSelectedRow();
+        String idPersona = (String) jTablePersonas.getValueAt(filaSeleccionada, 0);
+        int r = GestionPersonaBD.borrarPersona(idPersona);
+        if (r == 1) {
+            JOptionPane.showMessageDialog(null, "Persona borrada (" + idPersona + ")", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        cargarTablaFiltro(jTextFiltro.getText());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckHist;
     private javax.swing.JComboBox<String> jComboTrabajadora;
     private javax.swing.JLabel jLabel1;
@@ -273,7 +315,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarTabla(int idTrabajadora, int activos) {
-        ArrayList<PersonaBean> listaPersonas=GestionPersonaBD.getListaPersonas(activos, idTrabajadora);
+        ArrayList<PersonaBean> listaPersonas = GestionPersonaBD.getListaPersonas(activos, idTrabajadora);
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -284,26 +326,27 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 persona.getNombre(),
                 persona.getApellidos(),
                 persona.getDNI(),
-                FechasUtils.fecha(persona.getFechaNac(),"/")
+                FechasUtils.fecha(persona.getFechaNac(), "/"),
+                GestionTrabajadorasBD.getNombreTrabajadora(persona.getIdTrabajadora())
             });
         }
     }
 
     private void selectCombo(String idTrabajadora) {
-        System.out.println("selectCombo: "+idTrabajadora);
-        for(int i=0;i<jComboTrabajadora.getModel().getSize();i++){
-            String aux=jComboTrabajadora.getModel().getElementAt(i).split(" - ")[0];
-            if(idTrabajadora.equalsIgnoreCase(aux)){
+        System.out.println("selectCombo: " + idTrabajadora);
+        for (int i = 0; i < jComboTrabajadora.getModel().getSize(); i++) {
+            String aux = jComboTrabajadora.getModel().getElementAt(i).split(" - ")[0];
+            if (idTrabajadora.equalsIgnoreCase(aux)) {
                 jComboTrabajadora.setSelectedIndex(i);
             }
         }
-        
+
     }
 
     private void cargarTablaFiltro(String filtro) {
         String idTrabajadora = jComboTrabajadora.getModel().getElementAt(jComboTrabajadora.getSelectedIndex()).split(" - ")[0];
-        int id=Integer.parseInt(idTrabajadora);
-        ArrayList<PersonaBean> listaPersonas=GestionPersonaBD.getListaPersonasFiltro(jCheckHist.isSelected()?0:1, id, filtro);
+        int id = Integer.parseInt(idTrabajadora);
+        ArrayList<PersonaBean> listaPersonas = GestionPersonaBD.getListaPersonasFiltro(jCheckHist.isSelected() ? 0 : 1, id, filtro);
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -314,7 +357,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 persona.getNombre(),
                 persona.getApellidos(),
                 persona.getDNI(),
-                FechasUtils.fecha(persona.getFechaNac(),"/")
+                FechasUtils.fecha(persona.getFechaNac(), "/")
             });
         }
     }

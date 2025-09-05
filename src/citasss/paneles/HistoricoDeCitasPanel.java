@@ -7,6 +7,7 @@ package citasss.paneles;
 import citasss.beans.CitaDisponibleBeans;
 import citasss.beans.PersonaBean;
 import citasss.gestores.GestionCitasBD;
+import citasss.gestores.GestionServiciosBD;
 import citasss.gestores.GestionTrabajadorasBD;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -47,20 +48,20 @@ public class HistoricoDeCitasPanel extends javax.swing.JPanel {
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Fecha", "Hora", "Trabajadora"
+                "Fecha", "Hora", "Trabajadora", "Observaciones", "Demanda"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -71,10 +72,16 @@ public class HistoricoDeCitasPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setColumnSelectionAllowed(true);
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
         jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+        }
 
         jLabelNombre.setText("jLabel1");
 
@@ -114,7 +121,9 @@ public class HistoricoDeCitasPanel extends javax.swing.JPanel {
             datosTabla.addRow(new Object[]{
                 cita.getFecha(),
                 cita.getHora(),
-                GestionTrabajadorasBD.getNombreTrabajadora(cita.getIdTrabajadora())
+                GestionTrabajadorasBD.getNombreTrabajadora(cita.getIdTrabajadora()),
+                cita.getObservaciones(),
+                GestionServiciosBD.getNombreServicio(cita.getIdServicio())
             });
         });
     }

@@ -18,12 +18,17 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import citasss.gestores.GestionCitasBD;
+import citasss.gestores.GestionServiciosBD;
 import citasss.paneles.MttoPersonaPanel;
 import citasss.paneles.ListaPersonasPanel;
+import citasss.utils.Config;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vPalomo
@@ -42,7 +47,8 @@ public class CitasSS extends javax.swing.JFrame {
         initComponents();
         ponListenerTablaCitas();
         cargarCitasFecha(FechasUtils.fechaActualString("/"));
-        
+        ponListenerModificaciones();
+        jLabelBD.setText(Config.getHostBaseDatos());
     }
 
     /**
@@ -63,6 +69,7 @@ public class CitasSS extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabelBD = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -98,14 +105,14 @@ public class CitasSS extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "Hora", "Nombre", "Apellidos", "Fecha Nac.", "Telefono", "idPer"
+                "id", "Hora", "Nombre", "Apellidos", "Fecha Nac.", "Telefono", "Demanda", "Observaciones", "idPer"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -125,7 +132,8 @@ public class CitasSS extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(175);
             jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(6).setPreferredWidth(2);
+            jTable1.getColumnModel().getColumn(7).setPreferredWidth(125);
+            jTable1.getColumnModel().getColumn(8).setPreferredWidth(2);
         }
 
         jButton1.setText("Eliminar cita");
@@ -135,7 +143,9 @@ public class CitasSS extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("V1 8.25");
+        jLabel2.setText("V3 9.25");
+
+        jLabelBD.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -144,40 +154,47 @@ public class CitasSS extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboTrabajadora, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
-                        .addComponent(jLabel2))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboTrabajadora, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 401, Short.MAX_VALUE)
+                                .addComponent(jLabel2)))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelBD, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 11, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 17, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(comboTrabajadora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2)
-                            .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addGap(10, 10, 10))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(10, 10, 10))
+                    .addComponent(jLabelBD, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
 
         jMenu1.setText("Opciones");
@@ -219,7 +236,7 @@ public class CitasSS extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         JCalendar dateChooser = new JCalendar();
         int opcion = JOptionPane.showConfirmDialog(this, dateChooser, "Seleccione una fecha", JOptionPane.OK_CANCEL_OPTION);
-
+        
         if (opcion == JOptionPane.OK_OPTION && dateChooser.getDate() != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             jTextFecha1.setText(sdf.format(dateChooser.getDate()));
@@ -245,14 +262,14 @@ public class CitasSS extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nombre =(String) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
-        if(nombre==null || "".equalsIgnoreCase(nombre)){
+        String nombre = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+        if (nombre == null || "".equalsIgnoreCase(nombre)) {
             JOptionPane.showMessageDialog(this, "Debe selecionar la cita que quiere eliminar");
-        }else{
-            String id =(String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-            int i=GestionCitasBD.borrarCita(id);
-            System.out.println("Borrado: "+i);
-            JOptionPane.showMessageDialog(this, "Cita eliminada correctamente ("+i+")");
+        } else {
+            String id = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+            int i = GestionCitasBD.borrarCita(id);
+            System.out.println("Borrado: " + i);
+            JOptionPane.showMessageDialog(this, "Cita eliminada correctamente (" + i + ")");
             cargarCitasFecha(jTextFecha1.getText());
         }
         
@@ -314,6 +331,7 @@ public class CitasSS extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabelBD;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -334,31 +352,31 @@ public class CitasSS extends javax.swing.JFrame {
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String nombre =(String) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
-                    if(nombre==null || "".equalsIgnoreCase(nombre)){
+                    String nombre = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 2);
+                    if (nombre == null || "".equalsIgnoreCase(nombre)) {
                         System.out.println(nombre);
-                        String id =(String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+                        String id = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
                         //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
                         System.out.println("Id: " + id);
                         String idTrabajadora = comboTrabajadora.getModel().getElementAt(comboTrabajadora.getSelectedIndex()).split(" - ")[0];
                         JDialog frame = new JDialog(padre, "Seleccion de personas", true);
                         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                        frame.getContentPane().add(new ListaPersonasPanel(id,idTrabajadora));
+                        frame.getContentPane().add(new ListaPersonasPanel(id, idTrabajadora));
                         frame.pack();
                         frame.setLocationRelativeTo(padre);
                         frame.setVisible(true);
                         cargarCitasFecha(jTextFecha1.getText());
-                    }else{
+                    } else {
                         System.out.println(nombre);
-                        String id =(String) jTable1.getValueAt(jTable1.getSelectedRow(), 6);
+                        String idPersona = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 8);
                         //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
-                        PersonaBean persona=new PersonaBean(id);
+                        PersonaBean persona = new PersonaBean(idPersona);
                         persona.cargarDatos();
-                        System.out.println("Id: " + id);
-
+                        System.out.println("Id: " + idPersona);
+                        
                         JDialog frame = new JDialog(padre, "Consulta de personas", true);
                         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                        frame.getContentPane().add(new MttoPersonaPanel(MttoPersonaPanel.MTTO,persona));
+                        frame.getContentPane().add(new MttoPersonaPanel(MttoPersonaPanel.MTTO, persona));
                         frame.pack();
                         frame.setLocationRelativeTo(padre);
                         frame.setVisible(true);
@@ -368,11 +386,12 @@ public class CitasSS extends javax.swing.JFrame {
             }
         });
     }
+
     private void cargarCitasFecha(String fecha) {
         jTextFecha1.setText(fecha);
         String filtroTrabajadora = comboTrabajadora.getModel().getElementAt(comboTrabajadora.getSelectedIndex()).split(" - ")[0];
         ArrayList<CitaDisponibleBeans> lista = GestionCitasBD.getListaCitasCogidas(filtroTrabajadora, fecha);
-        System.out.println("Lista: "+lista.size());
+        System.out.println("Lista: " + lista.size());
         DefaultTableModel datosTabla = (DefaultTableModel) jTable1.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -385,8 +404,28 @@ public class CitasSS extends javax.swing.JFrame {
                 cita.getPersona().getApellidos(),
                 cita.getPersona().getFechaNac(),
                 cita.getPersona().getTelefono1(),
+                GestionServiciosBD.getNombreServicio(cita.getIdServicio()),
+                cita.getObservaciones(),
                 cita.getPersona().getIdPersona()
             });
+        });
+    }
+    
+    private void ponListenerModificaciones() {
+        DefaultTableModel datosTabla = (DefaultTableModel) jTable1.getModel();
+        datosTabla.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    int fila = e.getFirstRow();
+                    int columna = e.getColumn();
+                    String observaciones = (String) datosTabla.getValueAt(fila, columna);
+                    String idCita = (String) datosTabla.getValueAt(fila, 0);
+                    GestionCitasBD.guardarObservaciones(idCita, observaciones);
+                    System.out.println("Se modificó la celda [" + fila + "," + columna + "] con valor: " + observaciones);
+                    
+                }
+            }
         });
     }
 }

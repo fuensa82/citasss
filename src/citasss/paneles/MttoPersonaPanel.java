@@ -6,7 +6,6 @@ package citasss.paneles;
 
 import citasss.beans.PersonaBean;
 import citasss.gestores.GestionPersonaBD;
-import citasss.utils.FechasUtils;
 import com.toedter.calendar.JCalendar;
 import java.awt.Frame;
 import java.awt.Window;

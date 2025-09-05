@@ -16,10 +16,28 @@ public class CitaDisponibleBeans {
     private String hora;
     private int util;
     private PersonaBean persona;
+    private String observaciones;
+    private String idServicio;
+
+    public String getIdServicio() {
+        return idServicio;
+    }
+
+    public void setIdServicio(String idServicio) {
+        this.idServicio = idServicio;
+    }
 
     public void setIdPersona(String idPersona){
         if(persona==null)persona=new PersonaBean(idPersona);
         persona.cargarDatos();
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
     public PersonaBean getPersona() {
         return persona;

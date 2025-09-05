@@ -22,6 +22,15 @@ public class PersonaBean {
     private String email;
     private int activa;
     private String observaciones;
+    private String idTrabajadora;
+
+    public String getIdTrabajadora() {
+        return idTrabajadora;
+    }
+
+    public void setIdTrabajadora(String idTrabajadora) {
+        this.idTrabajadora = idTrabajadora;
+    }
 
     public String getObservaciones() {
         return observaciones;

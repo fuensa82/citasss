@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.naming.NamingException;
 import citasss.beans.CitaDisponibleBeans;
 import citasss.beans.HorarioDisponibleBean;
+import citasss.beans.ServiciosBean;
 import citasss.utils.FechasUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,15 +97,50 @@ public class GestionCitasBD {
         }
         return 0;
     }
-    
-    
-    public static int asignarCitaDisponible(String idCita,String idPersona, String idTrabajadora){
+    /**
+     * Guarda las observaciones de una cita
+     * @param idCita
+     * @param observaciones
+     * @return 
+     */
+    public static int guardarObservaciones(String idCita, String observaciones){
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            PreparedStatement insert1 = conexion.prepareStatement("UPDATE serviciossocialescitas.citasdisponibles SET idPersona=? WHERE  idCitaDisponible=?");
+            PreparedStatement insert1 = conexion.prepareStatement("update `serviciossocialescitas`.`citasdisponibles` set observaciones=? where idCitaDisponible=?");
+            insert1.setString(1,observaciones);
+            insert1.setString(2,idCita);
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionCitasBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
+    
+    /**
+     * 
+     * @param idCita
+     * @param idPersona
+     * @param idTrabajadora
+     * @param idServicio
+     * @return 
+     */
+    public static int asignarCitaDisponible(String idCita, String idPersona, String idTrabajadora, String idServicio){
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement insert1 = conexion.prepareStatement("UPDATE serviciossocialescitas.citasdisponibles SET idPersona=?, idServicio=? WHERE  idCitaDisponible=?");
             insert1.setString(1, idPersona);
-            insert1.setString(2, idCita);
+            insert1.setString(2, idServicio);
+            insert1.setString(3, idCita);
             System.out.println("SQL "+insert1);
             int fila = insert1.executeUpdate();
             if(fila==1){
@@ -172,7 +208,7 @@ public class GestionCitasBD {
         try {
             conexion = ConectorBD.getConnection();
             CitaDisponibleBeans cita;
-            PreparedStatement consulta = conexion.prepareStatement("SELECT idCitaDisponible,idTrabajadora,fecha,hora,util,idPersona FROM citasdisponibles " +
+            PreparedStatement consulta = conexion.prepareStatement("SELECT idCitaDisponible,idTrabajadora,fecha,hora,util,idPersona, observaciones, idServicio FROM citasdisponibles " +
                 "WHERE fecha=? and  idTrabajadora=? " +
                 "ORDER BY hora");
             consulta.setString(2, idTrabajadora);
@@ -188,6 +224,8 @@ public class GestionCitasBD {
                 cita.setHora(resultado.getString(4));
                 cita.setUtil(resultado.getInt(5));
                 cita.setIdPersona(resultado.getString(6));
+                cita.setObservaciones(resultado.getString(7));
+                cita.setIdServicio(resultado.getString(8));
                 result.add(cita);
             }
         } catch (SQLException e) {
@@ -211,7 +249,7 @@ public class GestionCitasBD {
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            PreparedStatement update = conexion.prepareStatement("UPDATE serviciossocialescitas.citasdisponibles SET idPersona=null WHERE idCitaDisponible=?");
+            PreparedStatement update = conexion.prepareStatement("UPDATE serviciossocialescitas.citasdisponibles SET idPersona=null, idServicio=null, observaciones='' WHERE idCitaDisponible=?");
             update.setString(1, idCita);
             System.out.println("SQL "+update);
             int fila = update.executeUpdate();
@@ -240,7 +278,7 @@ public class GestionCitasBD {
         try {
             conexion = ConectorBD.getConnection();
             CitaDisponibleBeans cita;
-            PreparedStatement consulta = conexion.prepareStatement("SELECT idCitaDisponible,citasdisponibles.idTrabajadora,fecha,hora,util,citasdisponibles.idPersona FROM citasdisponibles,personas " +
+            PreparedStatement consulta = conexion.prepareStatement("SELECT idCitaDisponible,citasdisponibles.idTrabajadora,fecha,hora,util,citasdisponibles.idPersona,idServicio,citasdisponibles.observaciones FROM citasdisponibles,personas " +
                                         "WHERE personas.idPersona=citasdisponibles.idPersona " +
                                         "AND personas.idPersona=? " +
                                         "ORDER BY fecha desc");
@@ -256,7 +294,39 @@ public class GestionCitasBD {
                 cita.setHora(resultado.getString(4));
                 cita.setUtil(resultado.getInt(5));
                 cita.setIdPersona(resultado.getString(6));
+                cita.setIdServicio(resultado.getString(7));
+                cita.setObservaciones(resultado.getString(8));
                 result.add(cita);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+
+    public static ArrayList<ServiciosBean> getServicios() {
+         ArrayList<ServiciosBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            ServiciosBean servicio;
+            PreparedStatement consulta = conexion.prepareStatement("SELECT idServicio, nombreServicio FROM servicios ");
+            ResultSet resultado = consulta.executeQuery();
+            
+            
+            while (resultado.next()) {
+                servicio = new ServiciosBean();
+                servicio.setIdServicio(resultado.getString(1));
+                servicio.setNombreServicio(resultado.getString(2));
+                result.add(servicio);
             }
         } catch (SQLException e) {
             e.printStackTrace();

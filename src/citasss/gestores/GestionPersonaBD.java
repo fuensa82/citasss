@@ -31,11 +31,11 @@ public class GestionPersonaBD {
             conexion = ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT idPersona,DNI,Nombre,Apellidos,FechaNac,Telefono1,Telefono2,email,activa FROM personas WHERE activa=? ORDER BY Apellidos");
+                    "SELECT idPersona,DNI,Nombre,Apellidos,FechaNac,Telefono1,Telefono2,email,activa,idTrabajadora FROM personas WHERE activa=? ORDER BY Apellidos");
 
             if (idTrabajadora != 0) {
                 consulta = conexion.prepareStatement(
-                        "SELECT idPersona,DNI,Nombre,Apellidos,FechaNac,Telefono1,Telefono2,email,activa FROM personas WHERE activa=? and idTrabajadora=? ORDER BY Apellidos");
+                        "SELECT idPersona,DNI,Nombre,Apellidos,FechaNac,Telefono1,Telefono2,email,activa,idTrabajadora FROM personas WHERE activa=? and idTrabajadora=? ORDER BY Apellidos");
                 consulta.setInt(2, idTrabajadora);
             }
             consulta.setInt(1, activas);
@@ -51,6 +51,7 @@ public class GestionPersonaBD {
                 persona.setTelefono2(resultado.getString(7));
                 persona.setEmail(resultado.getString(8));
                 persona.setActiva(resultado.getInt(9));
+                persona.setIdTrabajadora(resultado.getString(10));
                 result.add(persona);
             }
         } catch (SQLException e) {
@@ -259,6 +260,29 @@ public class GestionPersonaBD {
             return fila; //Correcto
 
         } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionCitasBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
+
+    public static int borrarPersona(String idPersona) {
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement update = conexion.prepareStatement("DELETE from personas where `idPersona`=?");
+            update.setString(1, idPersona);
+            System.out.println("SQL " + update);
+            int fila = update.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            JOptionPane.showMessageDialog(null, "Error en la modificación: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } finally {
             try {
