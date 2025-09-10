@@ -19,9 +19,13 @@ import javax.swing.SwingUtilities;
  * @author vPalomo
  */
 public class MttoPersonaPanel extends javax.swing.JPanel {
-    public static String CONSULTA = "consulta";
-    public static String MTTO = "mtto";
-    public static String ALTA = "alta";
+
+    /**
+     *
+     */
+    public static final String CONSULTA = "consulta";
+    public static final String MTTO = "mtto";
+    public static final String ALTA = "alta";
     private String modo;
     private PersonaBean persona;
 
@@ -34,7 +38,6 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
         this.persona = persona;
         this.modo = modo;
         initComponents();
-        
         cargarDatos();
         if(this.modo.equalsIgnoreCase(CONSULTA)){
             jButtonAceptar.setEnabled(false);

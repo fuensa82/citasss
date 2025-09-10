@@ -7,7 +7,6 @@ package citasss;
 import citasss.beans.CitaDisponibleBeans;
 import citasss.beans.PersonaBean;
 import citasss.gestores.GestionTrabajadorasBD;
-import citasss.paneles.CitasTrabajadorasPanel;
 import citasss.utils.FechasUtils;
 import com.toedter.calendar.JCalendar;
 import java.text.SimpleDateFormat;
@@ -69,6 +68,9 @@ public class CitasSSVista extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabelBD = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -180,6 +182,20 @@ public class CitasSSVista extends javax.swing.JFrame {
                 .addComponent(jLabelBD))
         );
 
+        jMenu1.setText("Opciones");
+
+        jMenuItem1.setText("Consulta personas");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,6 +228,17 @@ public class CitasSSVista extends javax.swing.JFrame {
     private void jTextFecha1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFecha1ActionPerformed
         cargarCitasFecha(jTextFecha1.getText());
     }//GEN-LAST:event_jTextFecha1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        JDialog frame = new JDialog(this, "Gestion de personas", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        frame.getContentPane().add(new ListaPersonasPanel("", "0", ListaPersonasPanel.CONSULTA));
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        //iniciarMisComponentes();
+        frame.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,6 +282,9 @@ public class CitasSSVista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelBD;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

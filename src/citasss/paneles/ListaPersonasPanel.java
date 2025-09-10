@@ -26,19 +26,31 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
     private String idCita;
     private String idTrabajadora;
+    private String modo;
+    public static String CONSULTA = "Consulta";
+    public static String CONSULTA_ALTA = "ConsultaConAlta";
+    public static String ALTA_CITA = "AltaCita";
 
     /**
-     * Crea el panel con el id de la cita que se va a tratar
-     *
-     * @param id
+     * Abre la lista de personas. Si el modo es AltaCita hay que enviar los datos de idCita e idTrabajadora para que se pueda asignar luego a la persona que se eliga a la cita y 
+     * a la trabajadora en cuestion. también se abrirá luego la lista de posibles demandas que se pueden solicitar.
+     * Si el modo es consulta no hace falta enviar ni la cita ni la trabajadora. Si es consulta con alta el botón de borrar estará activo
+     * @param idCita
+     * @param idTrabajadora
+     * @param modo 
      */
-    public ListaPersonasPanel(String id, String idTrabajadora) {
-        idCita = id;
+    public ListaPersonasPanel(String idCita, String idTrabajadora, String modo) {
+        this.idCita = idCita;
         this.idTrabajadora = idTrabajadora;
+        this.modo = modo;
         initComponents();
         cargarTabla(Integer.parseInt(idTrabajadora), jCheckHist.isSelected() ? 0 : 1);
         ponListenerTablaCitas();
         selectCombo(idTrabajadora);
+        System.out.println("Modo: "+modo);
+        if(modo.equalsIgnoreCase(CONSULTA)){
+            jButtonBorrar.setEnabled(false);
+        }
     }
 
     private void ponListenerTablaCitas() {
@@ -51,22 +63,37 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 }
 
                 if (e.getClickCount() == 2) {
-                    String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
-                    JDialog frame = new JDialog(new JFrame(), "Seleccion de servicio", true);
-                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                    frame.getContentPane().add(new ServiciosPanel(idCita, idTrabajadora, idPersona));
-                    frame.pack();
-                    frame.setLocationRelativeTo(padre);
-                    frame.setVisible(true);
-                    //cargarCitasFecha(jTextFecha1.getText());
-//                    System.out.println("Se ha hecho doble click");
-//                    String idPersona =(String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
-//                    //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
-//                    System.out.println("Id: " + idPersona);
-//                    System.out.println("Result: "+GestionCitasBD.asignarCitaDisponible(idCita,idPersona, idTrabajadora));
-                    Window w = SwingUtilities.getWindowAncestor(padre);
-                    w.setVisible(false);
-
+                    if (modo.equalsIgnoreCase(ALTA_CITA)) {
+                        String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+                        JDialog frame = new JDialog(new JFrame(), "Seleccion de servicio", true);
+                        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                        frame.getContentPane().add(new ServiciosPanel(idCita, idTrabajadora, idPersona));
+                        frame.pack();
+                        frame.setLocationRelativeTo(padre);
+                        frame.setVisible(true);
+                        Window w = SwingUtilities.getWindowAncestor(padre);
+                        w.setVisible(false);
+                    }else if(modo.equalsIgnoreCase(CONSULTA)){
+                        String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+                        PersonaBean persona=new PersonaBean(idPersona);
+                        persona.cargarDatos();
+                        JDialog frame = new JDialog(new JFrame(),"Consulta", true);
+                        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                        frame.getContentPane().add(new MttoPersonaPanel(MttoPersonaPanel.CONSULTA, persona));
+                        frame.pack();
+                        frame.setLocationRelativeTo(padre);
+                        frame.setVisible(true);
+                    }else if(modo.equalsIgnoreCase(CONSULTA_ALTA)){
+                        String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 0);
+                        PersonaBean persona=new PersonaBean(idPersona);
+                        persona.cargarDatos();
+                        JDialog frame = new JDialog(new JFrame(),"Consulta", true);
+                        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                        frame.getContentPane().add(new MttoPersonaPanel(MttoPersonaPanel.MTTO, persona));
+                        frame.pack();
+                        frame.setLocationRelativeTo(padre);
+                        frame.setVisible(true);
+                    }
                 }
             }
         });
@@ -91,7 +118,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
         jCheckHist = new javax.swing.JCheckBox();
         jComboTrabajadora = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        jButtonBorrar = new javax.swing.JButton();
 
         jTablePersonas.setAutoCreateRowSorter(true);
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
@@ -181,10 +208,10 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Trabajadora");
 
-        jButton4.setText("Borrar persona");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBorrar.setText("Borrar persona");
+        jButtonBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonBorrarActionPerformed(evt);
             }
         });
 
@@ -210,7 +237,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                         .addComponent(jCheckHist)
                         .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(jButtonBorrar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -234,7 +261,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButtonBorrar))
                 .addGap(10, 10, 10))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -289,7 +316,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
         cargarTablaFiltro(jTextFiltro.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
         int filaSeleccionada = jTablePersonas.getSelectedRow();
         String idPersona = (String) jTablePersonas.getValueAt(filaSeleccionada, 0);
         int r = GestionPersonaBD.borrarPersona(idPersona);
@@ -297,14 +324,14 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Persona borrada (" + idPersona + ")", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         cargarTablaFiltro(jTextFiltro.getText());
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButtonBorrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonBorrar;
     private javax.swing.JCheckBox jCheckHist;
     private javax.swing.JComboBox<String> jComboTrabajadora;
     private javax.swing.JLabel jLabel1;
