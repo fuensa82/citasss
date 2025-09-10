@@ -21,6 +21,8 @@ import citasss.gestores.GestionServiciosBD;
 import citasss.paneles.MttoPersonaPanel;
 import citasss.paneles.ListaPersonasPanel;
 import citasss.utils.Config;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -48,6 +50,10 @@ public class CitasSSVista extends javax.swing.JFrame {
         cargarCitasFecha(FechasUtils.fechaActualString("/"));
         ponListenerModificaciones();
         jLabelBD.setText(Config.getHostBaseDatos());
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (pantalla.width - this.getWidth()) / 2;
+        int y = (pantalla.height - this.getHeight()) / 2;
+        this.setLocation(x, y);
     }
 
     /**
