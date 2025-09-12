@@ -275,6 +275,7 @@ public class CitasSS extends javax.swing.JFrame {
         frame.setVisible(true);
         //iniciarMisComponentes();
         frame.setVisible(false);
+        cargarCitasFecha(jTextFecha1.getText());
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -284,7 +285,7 @@ public class CitasSS extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe selecionar la cita que quiere eliminar");
         } else {
             String id = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-            int i = GestionCitasBD.borrarCita(id);
+            int i = GestionCitasBD.vaciarCita(id);
             System.out.println("Borrado: " + i);
             JOptionPane.showMessageDialog(this, "Cita eliminada correctamente (" + i + ")");
             cargarCitasFecha(jTextFecha1.getText());
