@@ -108,14 +108,14 @@ public class CitasSSVista extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "Hora", "Nombre", "Apellidos", "Fecha Nac.", "Telefono", "Demanda", "Observaciones", "idPer"
+                "id", "Hora", "Nombre", "Apellidos", "DNI", "Fecha Nac.", "Telefono", "Demanda", "Observaciones", "idPer"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true, false
+                false, false, false, false, false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -133,13 +133,13 @@ public class CitasSSVista extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(50);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(125);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(175);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
             jTable1.getColumnModel().getColumn(5).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(7).setPreferredWidth(125);
-            jTable1.getColumnModel().getColumn(8).setPreferredWidth(2);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(60);
+            jTable1.getColumnModel().getColumn(8).setPreferredWidth(125);
+            jTable1.getColumnModel().getColumn(9).setPreferredWidth(2);
         }
 
-        jLabel2.setText("V3 9.25");
+        jLabel2.setText("V5 10.25");
 
         jLabelBD.setText("jLabel3");
 
@@ -161,7 +161,7 @@ public class CitasSSVista extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 401, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 582, Short.MAX_VALUE)
                                 .addComponent(jLabel2)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -312,7 +312,7 @@ public class CitasSSVista extends javax.swing.JFrame {
                         
                     } else {
                         System.out.println(nombre);
-                        String idPersona = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 8);
+                        String idPersona = (String) jTable1.getValueAt(jTable1.getSelectedRow(), 9);
                         //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
                         PersonaBean persona = new PersonaBean(idPersona);
                         persona.cargarDatos();
@@ -346,6 +346,7 @@ public class CitasSSVista extends javax.swing.JFrame {
                 cita.getHora(),
                 cita.getPersona().getNombre(),
                 cita.getPersona().getApellidos(),
+                cita.getPersona().getDNI(),
                 cita.getPersona().getFechaNac(),
                 cita.getPersona().getTelefono1(),
                 GestionServiciosBD.getNombreServicio(cita.getIdServicio()),

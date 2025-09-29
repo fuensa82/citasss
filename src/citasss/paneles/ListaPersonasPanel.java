@@ -94,6 +94,7 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                         frame.setLocationRelativeTo(padre);
                         frame.setVisible(true);
                     }
+                    cargarTabla(Integer.parseInt(idTrabajadora), jCheckHist.isSelected() ? 0 : 1);
                 }
             }
         });
