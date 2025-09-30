@@ -152,7 +152,7 @@ public class CitasSS extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("V5 10.25");
+        jLabel2.setText("V6 10.25");
 
         jLabelBD.setText("jLabel3");
 

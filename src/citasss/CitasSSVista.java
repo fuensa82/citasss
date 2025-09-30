@@ -139,7 +139,7 @@ public class CitasSSVista extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(9).setPreferredWidth(2);
         }
 
-        jLabel2.setText("V5 10.25");
+        jLabel2.setText("V6 10.25");
 
         jLabelBD.setText("jLabel3");
 
