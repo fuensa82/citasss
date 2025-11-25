@@ -17,6 +17,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,7 +31,7 @@ import recibosc60agia.utils.Utils;
  *
  * @author vPalomo
  */
-public class InicioRecibosC60 extends javax.swing.JFrame {
+public class InicioRecibosC601xPath extends javax.swing.JFrame {
 
     /**
      * Creates new form InicioRecibosC60
@@ -35,7 +40,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
     public String totalCSV = "";
     
 
-    public InicioRecibosC60() {
+    public InicioRecibosC601xPath() {
         initComponents();
     }
 
@@ -356,20 +361,21 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InicioRecibosC60.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InicioRecibosC60.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InicioRecibosC60.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InicioRecibosC60.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InicioRecibosC60().setVisible(true);
+                new InicioRecibosC601xPath().setVisible(true);
             }
         });
     }
@@ -399,6 +405,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
      * @return 
      */
     private String generarCadenaTXT(Node nodo, int indice) {
+        
         String result = "";
         String aux = "";
         try {
@@ -414,19 +421,38 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             //DNI
             //NodeList nListAUX = nuevoDoc.getElementsByTagName("EndToEndId");
             //aux = nListAUX.item(0).getFirstChild().getNodeValue().substring(0, 9);
+            XPathFactory xpathFactory = XPathFactory.newInstance();
+            XPath xpath = xpathFactory.newXPath();
+            String expression = "//Id/PrvtId/Othr/Id";
+            XPathExpression xpathExpression;
+            NodeList nodes=null;
+            try {
+                xpathExpression = xpath.compile(expression);
+                nodes = (NodeList) xpathExpression.evaluate(nuevoDoc, XPathConstants.NODESET);
+            } catch (XPathExpressionException ex) {
+                Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            NodeList nListAUX = nuevoDoc.getElementsByTagName("Id");
-            aux = nListAUX.item(0).getFirstChild().getNodeValue();
-            if (nListAUX.getLength() > 1) {
-                JOptionPane.showMessageDialog(null, "Existen dos DNI en un recibo. (Existen 2 nodos 'EndToEndID' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+            
+            //NodeList nListAUX = nuevoDoc.getElementsByTagName("Id");
+            //aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            if(nodes.item(0)!=null){
+                //aux=nodes.item(0).getTextContent();
+                aux=nodes.item(0).getFirstChild().getNodeValue();
+                if (nodes.getLength() > 1) {
+                    JOptionPane.showMessageDialog(null, "Existen dos DNI en un recibo. (Existen 2 nodos 'EndToEndID' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
+                }
+            }else{
+                aux="";
             }
             result += Utils.rellenaDer(aux, " ", 20);
             totalCSV+=";"+aux;
             
             
             //Nombre y Apellidos
-            nListAUX = nuevoDoc.getElementsByTagName("Nm");
+            NodeList nListAUX = nuevoDoc.getElementsByTagName("Nm");
             aux = nListAUX.item(0).getFirstChild().getNodeValue();
+            aux=aux.trim();
             if (nListAUX.getLength() > 1) {
                 JOptionPane.showMessageDialog(null, "Existen dos nombre en un recibo. (Existen 2 nodos 'Nm' dentor del mismo recibo en el XML del cuaderno 19 elegido. Indice: " + indice + ")");
             }
@@ -529,7 +555,7 @@ public class InicioRecibosC60 extends javax.swing.JFrame {
             result += "+" + Utils.rellenaN(importe, 12) + "000000000000";
 
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(InicioRecibosC60.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InicioRecibosC601xPath.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return result;
