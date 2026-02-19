@@ -315,6 +315,9 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cargarTablaFiltro(jTextFiltro.getText());
+//        String idTrabajadora = jComboTrabajadora.getModel().getElementAt(jComboTrabajadora.getSelectedIndex()).split(" - ")[0];
+//        int id = Integer.parseInt(idTrabajadora);
+//        cargarTabla(id, jCheckHist.isSelected() ? 0 : 1);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBorrarActionPerformed
@@ -385,7 +388,8 @@ public class ListaPersonasPanel extends javax.swing.JPanel {
                 persona.getNombre(),
                 persona.getApellidos(),
                 persona.getDNI(),
-                FechasUtils.fecha(persona.getFechaNac(), "/")
+                FechasUtils.fecha(persona.getFechaNac(), "/"),
+                GestionTrabajadorasBD.getNombreTrabajadora(persona.getIdTrabajadora())
             });
         }
     }

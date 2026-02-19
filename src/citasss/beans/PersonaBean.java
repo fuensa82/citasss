@@ -68,7 +68,7 @@ public class PersonaBean {
         this.idPersona = idPersona;
     }
     
-    public PersonaBean(String idPersona, String DNI, String nombre, String apellidos, String fechaNac, String telefono1, String telefono2, String email) {
+    public PersonaBean(String idPersona, String DNI, String nombre, String apellidos, String fechaNac, String telefono1, String telefono2, String email, String observaciones) {
         this.idPersona = idPersona;
         this.DNI = DNI;
         this.nombre = nombre;
@@ -77,9 +77,10 @@ public class PersonaBean {
         this.telefono1 = telefono1;
         this.telefono2 = telefono2;
         this.email = email;
+        this.observaciones=observaciones;
     }
 
-    public PersonaBean(String DNI, String nombre, String apellidos, String fechaNac, String telefono1, String telefono2, String email) {
+    public PersonaBean(String DNI, String nombre, String apellidos, String fechaNac, String telefono1, String telefono2, String email, String observaciones) {
         this.DNI = DNI;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -87,6 +88,7 @@ public class PersonaBean {
         this.telefono1 = telefono1;
         this.telefono2 = telefono2;
         this.email = email;
+        this.observaciones=observaciones;
     }
 
     public PersonaBean() {

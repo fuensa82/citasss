@@ -126,6 +126,7 @@ public class GestionPersonaBD {
                 persona.setTelefono2(resultado.getString(7));
                 persona.setEmail(resultado.getString(8));
                 persona.setActiva(resultado.getInt(9));
+                persona.setIdTrabajadora(resultado.getString(11));
                 result.add(persona);
             }
         } catch (SQLException e) {

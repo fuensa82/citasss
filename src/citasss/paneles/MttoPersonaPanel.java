@@ -35,7 +35,8 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
      * @param persona
      */
     public MttoPersonaPanel(String modo, PersonaBean persona) {
-        this.persona = persona;
+        this.persona = GestionPersonaBD.getPersona(persona.getIdPersona());
+        
         this.modo = modo;
         initComponents();
         cargarDatos();
@@ -251,7 +252,7 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         System.out.println("Fecha: "+jTextFechaNac.getText());
         if (modo.equalsIgnoreCase(ALTA)) {
-            PersonaBean nuevaPer = new PersonaBean(jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText());
+            PersonaBean nuevaPer = new PersonaBean(jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText(),jTextObservaciones.getText());
 
             if (GestionPersonaBD.crearPersona(nuevaPer) == 1) {
                 Window w = SwingUtilities.getWindowAncestor(this);
@@ -259,7 +260,7 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
             }
 
         }else if(modo.equalsIgnoreCase(MTTO)){
-            PersonaBean nuevaPer = new PersonaBean(persona.getIdPersona(),jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText());
+            PersonaBean nuevaPer = new PersonaBean(persona.getIdPersona(),jTextDNI.getText(), jTextNombre.getText(), jTextApellidos.getText(), jTextFechaNac.getText(), jTextTelefono1.getText(), jTextTelefono2.getText(), jTextEmail.getText(),jTextObservaciones.getText());
             if (GestionPersonaBD.guardarPersona(nuevaPer) == 1) {
                 Window w = SwingUtilities.getWindowAncestor(this);
                 w.setVisible(false);
@@ -321,6 +322,7 @@ public class MttoPersonaPanel extends javax.swing.JPanel {
             jTextFechaNac.setText(persona.getFechaNac());
             jTextTelefono1.setText(persona.getTelefono1());
             jTextTelefono2.setText(persona.getTelefono2());
+            jTextEmail.setText(persona.getEmail());
             jTextObservaciones.setText(persona.getObservaciones());
         } else if (modo.equalsIgnoreCase(ALTA)) {
             jLabelTitulo.setText("Alta de datos");

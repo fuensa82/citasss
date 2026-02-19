@@ -139,7 +139,7 @@ public class CitasSSVista extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(9).setPreferredWidth(2);
         }
 
-        jLabel2.setText("V6 10.25");
+        jLabel2.setText("V8 2.26");
 
         jLabelBD.setText("jLabel3");
 
@@ -161,7 +161,7 @@ public class CitasSSVista extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 582, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 588, Short.MAX_VALUE)
                                 .addComponent(jLabel2)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
